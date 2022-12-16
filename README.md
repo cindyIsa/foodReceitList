@@ -1,6 +1,6 @@
 # shop-list
 
-## Project setup
+## Project introduce
 ```
 yarn install
 ```
