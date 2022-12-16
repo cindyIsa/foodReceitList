@@ -74,27 +74,11 @@ func getData(res http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 	result := saveResponse(cursor, ctx)
 	res.Write(result)
 }
-func getAll(rw http.ResponseWriter, rt *http.Request) {
-	ctx, client, collection, err := connect_mongodb()
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
-	cursor, err := collection.Find(ctx, bson.D{})
-	if err != nil {
-		panic(err.Error())
-	}
-	defer cursor.Close(ctx)
-	result := saveResponse(cursor, ctx)
-	rw.Write(result)
-}
 
 func main() {
 	const host = "127.0.0.1:3000"
 	router := httprouter.New()
 	router.GET("/get/:page/:limit/:keyword", getData)
-	// router.HandlerFunc("GET", "/get", getAll)
 	http.ListenAndServe(host, router)
 
 }
